@@ -1,14 +1,16 @@
 <template>
     <lightning-card>
             <template if:true={showLoader}>
-                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                <!-- <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner> -->
             </template>
         
             <template if:true={showPNForm}>
-                 <!-- <c-create-progress-note-form record-type-id={selectedRecordTypeId} record-type-name={selectedRecordTypeName} onclose={handleClose} encounter-details={encounterDetails} onpncreated={handlePNCreated} onshowloader={handleShowLoader} onhideloader={handleHideLoader}></c-create-progress-note-form> -->
+                 <c-create-progress-note-form record-type-id={selectedRecordTypeId} record-type-name={selectedRecordTypeName} onclose={handleClose} encounter-details={encounterDetails} onpncreated={handlePNCreated} onshowloader={handleShowLoader} onhideloader={handleHideLoader}></c-create-progress-note-form>
             </template>
             <template if:true={showFUForm}>
-                 <!-- <c-create-follow-up onclose={handleClose} _record-id={createdPNId} onshowloader={handleShowLoader} onhideloader={handleHideLoader}></c-create-follow-up> -->
+                 <c-create-follow-up onclose={handleClose} _record-id={createdPNId} onshowloader={handleShowLoader} onhideloader={handleHideLoader}></c-create-follow-up>
             </template>
         </lightning-card>
+
+        
     </template>
