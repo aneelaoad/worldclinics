@@ -1,39 +1,17 @@
-import { LightningElement, api, track } from 'lwc';
-import createProgressNote from '@salesforce/apex/ProgressNoteController.createProgressNote';
+import { LightningElement, api } from 'lwc';
 
 export default class CreateProgressNoteForm extends LightningElement {
     @api recordTypeId;
-    @api recordTypeName;
     @api encounterDetails;
-    @track summaryContent;
-    @track actualDate;
 
-    handleSummaryContentChange(event) {
-        this.summaryContent = event.target.value;
+    handleSuccess(event) {
+        const eventId = event.detail.id;
+        this.dispatchEvent(new CustomEvent('pncreated', { detail: eventId }));
+        this.handleClose();
     }
 
-    handleActualDateChange(event) {
-        this.actualDate = event.target.value;
-    }
-
-    handleSave() {
-        const fields = {
-            Summary_Content__c: this.summaryContent,
-            Actual_Date__c: this.actualDate,
-            Encounter__c: this.encounterDetails, // Assuming encounterDetails contains the Case Id
-            RecordTypeId: this.recordTypeId
-        };
-
-        createProgressNote({ fields })
-            .then(result => {
-                // handle success
-                this.dispatchEvent(new CustomEvent('pncreated', { detail: result }));
-                this.handleClose();
-            })
-            .catch(error => {
-                // handle error
-                console.error(error);
-            });
+    handleError(event) {
+        console.error('Error:', event.detail.detail);
     }
 
     handleClose() {
