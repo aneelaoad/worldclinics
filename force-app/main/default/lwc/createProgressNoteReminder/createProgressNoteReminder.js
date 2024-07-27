@@ -1,16 +1,13 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
+import { getRecord } from 'lightning/uiRecordApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import PROGRESS_NOTE_OBJECT from '@salesforce/schema/Progress_Note__c';
 import CASE_OBJECT from '@salesforce/schema/Case';
-import { getRecord } from 'lightning/uiRecordApi';
-const FIELDS = ['Case.RecordTypeId'];
 
-export default class CreateProgressNoteFollowUp extends LightningElement {
 
-    @api recordId; // The record ID of the Case (or encounter) from which the action button was clicked
-    @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
-    encounterRecord;
 
+export default class CreateProgressNoteReminder extends LightningElement {
+  
 
     @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
     encounterObjectInfo;
@@ -19,28 +16,42 @@ export default class CreateProgressNoteFollowUp extends LightningElement {
 
     selectedRecordTypeId;
     selectedRecordTypeName;
+    showPNForm = false;
+
+    // Define mappings between encounter and progress note record types
+    recordTypeMappings = {
+        'Medical Encounter': 'Medical Progress Note',
+        'Admin Encounter': 'Admin Progress Note'
+    };
 
     connectedCallback() {
         this.fetchRecordTypes();
     }
 
     fetchRecordTypes() {
-        this.fetchEncounterRecordTypes();
+       
+        this.fetchEncounterRecordType();
         this.fetchProgressNoteRecordTypes();
     }
 
-    fetchEncounterRecordTypes() {
-        console.log('  @api recordId;',this.recordId);
+    fetchEncounterRecordType() {
+        if(this.encounterObjectInfo.data){
+            const encounterRecordTypes = this.encounterObjectInfo.data.recordTypeInfos;
+            const recordTypeList = Object.values(recordTypeInfos).map(recordType => ({
+                id: recordType.recordTypeId,
+                name: recordType.name,
+                developerName: recordType.developerName
+            }));
 
-        if (this.encounterObjectInfo.data) {
-            const recordTypeInfos = this.encounterObjectInfo.data.recordTypeInfos;
-            // Fetch and log encounter record types if needed
-        } else if (this.encounterObjectInfo.error) {
-            console.error('Error fetching encounter object info:', this.encounterObjectInfo.error);
+            console.log('Encounter List: ',recordTypeList);
+
         }
+      
     }
 
     fetchProgressNoteRecordTypes() {
+            console.log('progressNoteObjectInfo: ',this.progressNoteObjectInfo);
+
         if (this.progressNoteObjectInfo.data) {
             const recordTypeInfos = this.progressNoteObjectInfo.data.recordTypeInfos;
 
@@ -50,15 +61,7 @@ export default class CreateProgressNoteFollowUp extends LightningElement {
                 developerName: recordType.developerName
             }));
 
-            // Log all record types for debugging
-            recordTypeList.forEach(element => {
-                console.log('Progress Note Record Types', element.name);
-                // Check for "Medical Progress Note" record type
-                if (element.name === 'Medical Progress Note') {
-                    this.selectedRecordTypeId = element.id;
-                    this.selectedRecordTypeName = element.name;
-                }
-            });
+            console.log('PN List: ',recordTypeList);
         } else if (this.progressNoteObjectInfo.error) {
             console.error('Error fetching progress note object info:', this.progressNoteObjectInfo.error);
         }

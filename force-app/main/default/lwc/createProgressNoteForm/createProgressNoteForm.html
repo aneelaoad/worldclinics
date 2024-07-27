@@ -6,21 +6,30 @@
         onerror={handleError}>
         <lightning-messages></lightning-messages>
 
-        <!-- Add your fields here -->
-        <lightning-input-field field-name="Summary_Content__c"></lightning-input-field>
-        <lightning-input-field field-name="Notes__c"></lightning-input-field>
-        <lightning-input-field field-name="On_Behalf_Of__c"></lightning-input-field>
-        <lightning-input-field field-name="Difficulty__c"></lightning-input-field>
-        <lightning-input-field field-name="Was_there_patient_contact__c"></lightning-input-field>
-        <lightning-input-field field-name="Informant_Name__c"></lightning-input-field>
-        <lightning-input-field field-name="Mode_of_Contact__c"></lightning-input-field>
-        <lightning-input-field field-name="Contact_Information__c"></lightning-input-field>
-        <lightning-input-field field-name="Mute_Sending_the_Email_Alert__c"></lightning-input-field>
-        <lightning-input-field field-name="Encounter__c"></lightning-input-field>
-        <lightning-input-field field-name="Actual_Date__c"></lightning-input-field>
-        <!-- Add more fields as needed -->
+        <div class="slds-grid slds-wrap slds-m-bottom_medium">
+            <!-- Column 1 -->
+            <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                <lightning-input-field field-name="Summary_Content__c"></lightning-input-field>
+                <lightning-input-field field-name="Contact_Information__c"></lightning-input-field>
 
-        <div class="slds-m-top_medium">
+                <!-- <lightning-input-field field-name="On_Behalf_Of__c"></lightning-input-field> -->
+                <!-- <lightning-input-field field-name="Difficulty__c"></lightning-input-field> -->
+                <!-- <lightning-input-field field-name="Was_there_patient_contact__c"></lightning-input-field> -->
+            </div>
+            
+            <!-- Column 2 -->
+            <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                <lightning-input-field field-name="Notes__c"></lightning-input-field>
+
+                <!-- <lightning-input-field field-name="Informant_Name__c"></lightning-input-field> -->
+                <!-- <lightning-input-field field-name="Mode_of_Contact__c"></lightning-input-field> -->
+                <!-- <lightning-input-field field-name="Mute_Sending_the_Email_Alert__c"></lightning-input-field> -->
+                <lightning-input-field field-name="Encounter__c"></lightning-input-field>
+                <lightning-input-field field-name="Actual_Date__c"></lightning-input-field>
+            </div>
+        </div>
+
+        <div class="slds-m-top_medium slds-text-align_center">
             <lightning-button variant="brand" type="submit" name="save" label="Save"></lightning-button>
             <lightning-button variant="neutral" onclick={handleClose} label="Cancel"></lightning-button>
         </div>
